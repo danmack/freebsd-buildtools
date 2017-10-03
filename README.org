@@ -6,3 +6,36 @@ statistics on the FreeBSD build process.
 Currently this uses a child process to scrape the log file repeatedely
 which is a terrible idea.  I will instead have the child process do
 something more intelligent in the next release.
+
+Currently it outputs a log in the format below with two columns of
+timings - time since last section and time since build started.
+
+Because the stages can change from release to release, there is an
+included configuration file that should be pretty self explanatory to
+use. This will allow the program to handle differnt match patterns
+based on the SVN version - if needed.
+
+#+BEGIN_SRC bash
+
+Building FreeBSD (svn: 324242)
+    Build Time :  20171003.174621
+    SRC URL    :  https://svn.freebsd.org/base/stable/11
+    KERNEL CONF:  GENERIC
+    BUILD UUID :  20171003.174621|https://svn.freebsd.org/base/stable/11|GENERIC|/usr/src
+    SRC DIR    :  /usr/src
+    LOG DIR    :  /var/log/bsdbuild/324242
+
+ ... building phase buildworld ...
+       >>> World build started                       ... 00:00:02 : 00:00:04
+       >>> Rebuilding the temporary build tree       ... 00:00:00 : 00:00:06
+       >>> stage 1.1: legacy release compatibility s ... 00:00:00 : 00:00:08
+       >>> stage 1.2: bootstrap tools                ... 00:00:00 : 00:00:10
+       >>> stage 2.1: cleaning up the object tree    ... 00:03:43 : 00:03:55
+       >>> stage 2.2: rebuilding the object tree     ... 00:01:01 : 00:04:58
+       >>> stage 2.3: build tools                    ... 00:00:21 : 00:05:21
+       >>> stage 3: cross tools                      ... 00:00:04 : 00:05:28
+       >>> stage 3.1: recording compiler metadata    ... 00:00:44 : 00:06:14
+       >>> stage 4.1: building includes              ... 00:00:00 : 00:06:16
+       >>> stage 4.2: building libraries             ... 00:00:19 : 00:06:37
+
+#+END_SRC
