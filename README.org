@@ -1,0 +1,8 @@
+* FreeBSD Build Script
+
+A perl script prototype to build and collect detailed timing
+statistics on the FreeBSD build process.
+
+Currently this uses a child process to scrape the log file repeatedely
+which is a terrible idea.  I will instead have the child process do
+something more intelligent in the next release.

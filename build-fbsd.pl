@@ -72,7 +72,7 @@ foreach $cur_phase ( @phases ) {
                     next if $ns == 1;
                 }
                 close(ZLOG) || warn "trouble closing logfile: $!\n";
-                sleep(2);
+                sleep(15);
             } until ($ns == 1);
             $last_stamp = time();
         }
