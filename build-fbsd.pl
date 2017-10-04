@@ -11,7 +11,6 @@ use POSIX ":sys_wait_h";
 # bring in the stages hash
 require "/root/bin/fbsd-bldstages.pl";
 
-%buildinfo = ();
 @phases = qw(buildworld buildkernel);
 $srcdir   = "/usr/src";
 
@@ -66,7 +65,7 @@ foreach $cur_phase ( @phases ) {
                         printf("       %-45s ...", substr($cur_step, 0, 45));
                         $buildsecs  = time() - $start_secs; # total time since we started
                         $step_secs  = time() - $last_stamp;
-                        printf("%10s : %10s\n", 
+                        printf(" %8s : %8s\n",
                                stopwatch_display($step_secs),
                                stopwatch_display($buildsecs));
                         $ns = 1;
@@ -74,7 +73,7 @@ foreach $cur_phase ( @phases ) {
                     next if $ns == 1;
                 }
                 close(ZLOG) || warn "trouble closing logfile: $!\n";
-                sleep(15);
+                sleep(10);
             } until ($ns == 1);
             $last_stamp = time();
         }
@@ -86,6 +85,9 @@ foreach $cur_phase ( @phases ) {
     }
     printf("\n");
 }
+
+$end_secs = time();
+printf("\nBuild Completed in %d minutes.", ($end_secs - $start_secs) / 60);
 
 sub usage {
     printf("Usage: %s [-d|--debug] [-v|--verbose] [-r|--reboot] [-s|--srcdir=srcdir] [phase]", basename($0));
