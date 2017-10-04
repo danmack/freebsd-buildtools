@@ -66,7 +66,9 @@ foreach $cur_phase ( @phases ) {
                         printf("       %-45s ...", substr($cur_step, 0, 45));
                         $buildsecs  = time() - $start_secs; # total time since we started
                         $step_secs  = time() - $last_stamp;
-                        printf("%20s\n", stopwatch_display($step_secs, $buildsecs));
+                        printf("%10s : %10s\n", 
+                               stopwatch_display($step_secs),
+                               stopwatch_display($buildsecs));
                         $ns = 1;
                     }
                     next if $ns == 1;
@@ -128,19 +130,10 @@ sub startup_message {
 }
 
 sub stopwatch_display {
-    my $t1 = shift;
-    my $t2 = shift;
-
-    my $m = $t1 / 60;
-    my $h = $m / 60;
-    my $s = $t1 % 60;
-
-    $s1 = sprintf("%02d:%02d:%02d", $h, $m, $s);
-
-    my $m = $t2 / 60;
-    my $h = $m / 60;
-    my $s = $t2 % 60;
-
-    $s2 = sprintf("%02d:%02d:%02d", $h, $m, $s);
-    return "$s1" . " : " . "$s2";
+    my $secs   = shift;
+    my $mins   = $secs / 60;
+    my $hours  = $mins / 60;
+    $mins      = $mins % 60;
+    $secs      = $secs % 60;
+    return sprintf("%02d:%02d:%02d", $hours, $mins, $secs);
 }
